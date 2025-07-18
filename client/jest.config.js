@@ -1,5 +1,3 @@
-// jest.config.js - Root Jest configuration file
-
 module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/tests/setup.js'],

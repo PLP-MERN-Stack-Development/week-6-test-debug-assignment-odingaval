@@ -33,7 +33,7 @@ beforeAll(async () => {
     title: 'Test Post',
     content: 'This is a test post content',
     author: userId,
-    category: mongoose.Types.ObjectId(),
+    category: new mongoose.Types.ObjectId(),
     slug: 'test-post',
   });
   postId = post._id;
@@ -62,7 +62,7 @@ describe('POST /api/posts', () => {
     const newPost = {
       title: 'New Test Post',
       content: 'This is a new test post content',
-      category: mongoose.Types.ObjectId().toString(),
+      category: new mongoose.Types.ObjectId().toString(),
     };
 
     const res = await request(app)
@@ -81,7 +81,7 @@ describe('POST /api/posts', () => {
     const newPost = {
       title: 'Unauthorized Post',
       content: 'This should not be created',
-      category: mongoose.Types.ObjectId().toString(),
+      category: new mongoose.Types.ObjectId().toString(),
     };
 
     const res = await request(app)
@@ -95,7 +95,7 @@ describe('POST /api/posts', () => {
     const invalidPost = {
       // Missing title
       content: 'This post is missing a title',
-      category: mongoose.Types.ObjectId().toString(),
+      category: new mongoose.Types.ObjectId().toString(),
     };
 
     const res = await request(app)
@@ -118,7 +118,7 @@ describe('GET /api/posts', () => {
   });
 
   it('should filter posts by category', async () => {
-    const categoryId = mongoose.Types.ObjectId().toString();
+    const categoryId = new mongoose.Types.ObjectId().toString();
     
     // Create a post with specific category
     await Post.create({
@@ -146,7 +146,7 @@ describe('GET /api/posts', () => {
         title: `Pagination Post ${i}`,
         content: `Content for pagination test ${i}`,
         author: userId,
-        category: mongoose.Types.ObjectId(),
+        category: new mongoose.Types.ObjectId(),
         slug: `pagination-post-${i}`,
       });
     }
@@ -177,7 +177,7 @@ describe('GET /api/posts/:id', () => {
   });
 
   it('should return 404 for non-existent post', async () => {
-    const nonExistentId = mongoose.Types.ObjectId();
+    const nonExistentId = new mongoose.Types.ObjectId();
     const res = await request(app)
       .get(`/api/posts/${nonExistentId}`);
 
@@ -237,21 +237,42 @@ describe('PUT /api/posts/:id', () => {
 });
 
 describe('DELETE /api/posts/:id', () => {
+  let deletePostId;
+  let deleteToken;
+  let deleteUserId;
+  beforeEach(async () => {
+    // Create a user and post for each test
+    const user = await User.create({
+      username: 'deleteuser' + Math.random(),
+      email: `delete${Math.random()}@example.com`,
+      password: 'password123',
+    });
+    deleteUserId = user._id;
+    deleteToken = generateToken(user);
+    const post = await Post.create({
+      title: 'Delete Me',
+      content: 'To be deleted',
+      author: deleteUserId,
+      category: new mongoose.Types.ObjectId(),
+      slug: 'delete-me-' + Math.random(),
+    });
+    deletePostId = post._id;
+  });
+
   it('should delete a post when authenticated as author', async () => {
     const res = await request(app)
-      .delete(`/api/posts/${postId}`)
-      .set('Authorization', `Bearer ${token}`);
+      .delete(`/api/posts/${deletePostId}`)
+      .set('Authorization', `Bearer ${deleteToken}`);
 
     expect(res.status).toBe(200);
-    
     // Verify post is deleted
-    const deletedPost = await Post.findById(postId);
+    const deletedPost = await Post.findById(deletePostId);
     expect(deletedPost).toBeNull();
   });
 
   it('should return 401 if not authenticated', async () => {
     const res = await request(app)
-      .delete(`/api/posts/${postId}`);
+      .delete(`/api/posts/${deletePostId}`);
 
     expect(res.status).toBe(401);
   });

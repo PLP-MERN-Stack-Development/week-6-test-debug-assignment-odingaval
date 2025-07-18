@@ -1,29 +1,22 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=19941384&assignment_repo_type=AssignmentRepo)
 # Testing and Debugging MERN Applications
 
-This assignment focuses on implementing comprehensive testing strategies for a MERN stack application, including unit testing, integration testing, and end-to-end testing, along with debugging techniques.
-
-## Assignment Overview
-
-You will:
-1. Set up testing environments for both client and server
-2. Write unit tests for React components and server functions
-3. Implement integration tests for API endpoints
-4. Create end-to-end tests for critical user flows
-5. Apply debugging techniques for common MERN stack issues
+This project demonstrates comprehensive testing strategies for a MERN stack application, including unit, integration, and end-to-end tests, as well as debugging techniques.
 
 ## Project Structure
 
 ```
-mern-testing/
+week-6-test-debug-assignment-odingaval/
 ├── client/                 # React front-end
 │   ├── src/                # React source code
-│   │   ├── components/     # React components
+│   │   ├── components/     # React components (Button, ErrorBoundary, PostsList)
 │   │   ├── tests/          # Client-side tests
-│   │   │   ├── unit/       # Unit tests
-│   │   │   └── integration/ # Integration tests
-│   │   └── App.jsx         # Main application component
-│   └── cypress/            # End-to-end tests
+│   │   │   ├── unit/       # Unit tests (App, Button, ErrorBoundary, HookTest)
+│   │   │   └── integration/ # Integration tests (PostsList)
+│   │   └── App.jsx         # Main application component (includes counter)
+│   ├── cypress/            # End-to-end tests
+│   ├── public/             # Static files
+│   └── ...                 # Config, coverage, etc.
 ├── server/                 # Express.js back-end
 │   ├── src/                # Server source code
 │   │   ├── controllers/    # Route controllers
@@ -33,54 +26,82 @@ mern-testing/
 │   └── tests/              # Server-side tests
 │       ├── unit/           # Unit tests
 │       └── integration/    # Integration tests
-├── jest.config.js          # Jest configuration
-└── package.json            # Project dependencies
+├── jest.config.js          # Jest configuration (root)
+└── Week6-Assignment.md     # Assignment instructions
 ```
 
-## Getting Started
+## Key Features
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Follow the setup instructions in the `Week6-Assignment.md` file
-4. Explore the starter code and existing tests
-5. Complete the tasks outlined in the assignment
+- **Counter in App.jsx:**
+  - The main `App` component includes a counter using React's `useState` hook. Clicking the "Increment" button increases the count.
+- **Posts List:**
+  - The `PostsList` component fetches and displays posts, with loading, error, and empty states.
+- **Error Boundary:**
+  - The `ErrorBoundary` component catches errors in the React component tree.
 
-## Files Included
+## How to Run and Test
 
-- `Week6-Assignment.md`: Detailed assignment instructions
-- Starter code for a MERN application with basic test setup:
-  - Sample React components with test files
-  - Express routes with test files
-  - Jest and testing library configurations
-  - Example tests for reference
+### 1. Install dependencies
+```bash
+cd client
+npm install
+```
 
-## Requirements
+### 2. Run the development server
+```bash
+npm start
+```
 
-- Node.js (v18 or higher)
-- MongoDB (local installation or Atlas account)
-- npm or yarn
-- Basic understanding of testing concepts
+### 3. Run tests and view coverage
+```bash
+npm test -- --coverage
+```
+- Coverage reports are generated in `client/coverage/lcov-report/index.html`.
 
-## Testing Tools
+### 4. Run end-to-end tests (if implemented)
+```bash
+npm run cypress:open
+```
 
-- Jest: JavaScript testing framework
-- React Testing Library: Testing utilities for React
-- Supertest: HTTP assertions for API testing
-- Cypress/Playwright: End-to-end testing framework
-- MongoDB Memory Server: In-memory MongoDB for testing
+## Troubleshooting
 
-## Submission
+### Invalid Hook Call Error
+If you see an error like:
+```
+Invalid hook call. Hooks can only be called inside of the body of a function component.
+```
+- Ensure only one version of React is installed in `client/node_modules`.
+- Make sure you are running tests from the `client` directory.
+- Delete and reinstall `node_modules` if needed:
+  ```bash
+  rm -rf node_modules package-lock.json
+  npm install
+  ```
+- If the error persists, check for duplicate React installations in the entire repo.
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+## How to Push Changes to GitHub
 
-1. Complete all required tests (unit, integration, and end-to-end)
-2. Achieve at least 70% code coverage for unit tests
-3. Document your testing strategy in the README.md
-4. Include screenshots of your test coverage reports
-5. Demonstrate debugging techniques in your code
+1. Stage your changes:
+   ```bash
+   git add .
+   ```
+2. Commit your changes:
+   ```bash
+   git commit -m "Describe your changes"
+   ```
+3. Push to GitHub:
+   ```bash
+   git push
+   ```
+
+## Assignment Requirements Checklist
+- [x] Counter implemented in `App.jsx`
+- [x] Unit and integration tests for client components
+- [x] Test coverage command and report
+- [x] Error boundary in place
+- [x] Troubleshooting section in README
 
 ## Resources
-
 - [Jest Documentation](https://jestjs.io/docs/getting-started)
 - [React Testing Library Documentation](https://testing-library.com/docs/react-testing-library/intro/)
 - [Supertest Documentation](https://github.com/visionmedia/supertest)

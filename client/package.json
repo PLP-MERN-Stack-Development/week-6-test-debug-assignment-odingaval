@@ -1,0 +1,43 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "test:unit": "jest src/tests/unit",
+    "test:integration": "jest src/tests/integration",
+    "test": "jest --coverage",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "build": "react-scripts build"
+  },
+  "dependencies": {
+    "cypress": "^12.11.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "babel-jest": "^30.0.4",
+    "react-scripts": "^5.0.1",
+    "whatwg-fetch": "^3.6.20"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
